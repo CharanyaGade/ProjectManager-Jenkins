@@ -26,6 +26,7 @@ const ProjectManager = () => {
     try {
       const res = await axios.get(`${baseUrl}/all`);
       setProjects(res.data);
+    // eslint-disable-next-line no-unused-vars
     } catch (error) {
       setMessage('Failed to fetch projects.');
     }
@@ -52,6 +53,7 @@ const ProjectManager = () => {
       setMessage('Project added successfully.');
       fetchAllProjects();
       resetForm();
+    // eslint-disable-next-line no-unused-vars
     } catch (error) {
       setMessage('Error adding project.');
     }
@@ -62,6 +64,7 @@ const ProjectManager = () => {
     const res = await axios.delete(`${baseUrl}/delete/${id}`);
     setMessage(res.data);
     setProjects((prev) => prev.filter((p) => p.id !== id));
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
     setMessage('Error deleting project.');
   }

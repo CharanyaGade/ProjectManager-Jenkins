@@ -1,0 +1,37 @@
+package com.klef.dev.controller;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.klef.dev.entity.Project;
+import com.klef.dev.service.ProjectService;
+
+@CrossOrigin(origins = "*") 
+@RestController
+@RequestMapping("/projectapi/")
+public class ProjectController {
+
+    @Autowired
+    private ProjectService projectService;
+    @GetMapping("/")
+    public String home() 
+    {
+        return "Jenkins Full Stack Deployment ";
+    }
+    @PostMapping("/add")
+    public ResponseEntity<Student> addProject(@RequestBody Student student) {
+        Student savedStudent = studentService.addStudent(student);
+        return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteProject(@PathVariable int id) {
+        return projectService.deleteProject(id);
+    }
+
+    @GetMapping("/all")
+    public List<Project> getAllProjects() {
+        return projectService.viewAllProjects();
+    }
+}

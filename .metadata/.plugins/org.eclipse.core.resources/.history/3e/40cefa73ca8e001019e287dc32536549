@@ -1,0 +1,52 @@
+package com.klef.dev.entity;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "project_table")
+public class Project {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "project_title", length = 255, nullable = false)
+    @JsonProperty("title")
+    private String title;
+
+    @Column(name = "project_description", length = 500, nullable = false)
+    @JsonProperty("description")
+    private String description;
+
+    @Column(name = "project_domain", length = 255, nullable = false)
+    @JsonProperty("domain")
+    private String domain;
+
+    @Column(name = "project_status", length = 50, nullable = false)
+    @JsonProperty("status")
+    private String status;
+
+    @Column(name = "project_guide", length = 255, nullable = false)
+    @JsonProperty("guide")
+    private String guide;
+
+    // Getters and Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getDomain() { return domain; }
+    public void setDomain(String domain) { this.domain = domain; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getGuide() { return guide; }
+    public void setGuide(String guide) { this.guide = guide; }
+}

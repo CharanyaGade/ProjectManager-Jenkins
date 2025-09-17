@@ -1,5 +1,11 @@
 const config = {
-  url: "http://localhost:1982"   
+  DEV_API_URL: "http://localhost:1982/projectapi",
+  TOMCAT_API_URL: "http://localhost:2030/springbootprojectapi/projectapi"
 };
 
-export default config;
+const API_URL =
+  window.location.hostname === "localhost" && window.location.port === "5173"
+    ? config.DEV_API_URL
+    : config.TOMCAT_API_URL;
+
+export default API_URL;

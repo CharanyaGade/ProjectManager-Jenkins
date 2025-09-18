@@ -17,11 +17,11 @@ pipeline {
         stage('Deploy Frontend to Tomcat') {
             steps {
                 bat '''
-                if exist "C:\\Tomcat\\webapps\\reactprojectapi" (
-                    rmdir /S /Q "C:\\Tomcat\\webapps\\reactprojectapi"
+                if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactprojectapi" (
+                    rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactprojectapi"
                 )
-                mkdir "C:\\Tomcat\\webapps\\reactprojectapi"
-                xcopy /E /I /Y "ProjectReact\\dist\\*" "C:\\Tomcat\\webapps\\reactprojectapi\\"
+                mkdir "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactprojectapi"
+                xcopy /E /I /Y "ProjectReact\\dist\\*" "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\reactprojectapi\\"
                 '''
             }
         }
@@ -39,13 +39,13 @@ pipeline {
         stage('Deploy Backend to Tomcat') {
             steps {
                 bat '''
-                if exist "C:\\Tomcat\\webapps\\springbootprojectapi.war" (
-                    del /Q "C:\\Tomcat\\webapps\\springbootprojectapi.war"
+                if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\springbootprojectapi.war" (
+                    del /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\springbootprojectapi.war"
                 )
-                if exist "C:\\Tomcat\\webapps\\springbootprojectapi" (
-                    rmdir /S /Q "C:\\Tomcat\\webapps\\springbootprojectapi"
+                if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\springbootprojectapi" (
+                    rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\springbootprojectapi"
                 )
-                copy "ProjectSpringBoot\\target\\springbootprojectapi.war" "C:\\Tomcat\\webapps\\springbootprojectapi.war"
+                copy "ProjectSpringBoot\\target\\springbootprojectapi.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\springbootprojectapi.war"
                 '''
             }
         }

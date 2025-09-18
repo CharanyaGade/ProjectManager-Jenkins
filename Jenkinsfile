@@ -21,7 +21,7 @@ pipeline {
                     rmdir /S /Q "C:\\Tomcat\\webapps\\reactprojectapi"
                 )
                 mkdir "C:\\Tomcat\\webapps\\reactprojectapi"
-                xcopy /E /I /Y "ProjectReact\\build\\*" "C:\\Tomcat\\webapps\\reactprojectapi\\"
+                xcopy /E /I /Y "ProjectReact\\dist\\*" "C:\\Tomcat\\webapps\\reactprojectapi\\"
                 '''
             }
         }
@@ -34,22 +34,22 @@ pipeline {
                 }
             }
         }
+
         // ===== BACKEND DEPLOY =====
         stage('Deploy Backend to Tomcat') {
-    steps {
-        bat '''
-        if exist "C:\\Tomcat\\webapps\\springbootprojectapi.war" (
-            del /Q "C:\\Tomcat\\webapps\\springbootprojectapi.war"
-        )
-        if exist "C:\\Tomcat\\webapps\\springbootprojectapi" (
-            rmdir /S /Q "C:\\Tomcat\\webapps\\springbootprojectapi"
-        )
-        copy "ProjectSpringBoot\\target\\springbootprojectapi.war" "C:\\Tomcat\\webapps\\springbootprojectapi.war"
-        '''
+            steps {
+                bat '''
+                if exist "C:\\Tomcat\\webapps\\springbootprojectapi.war" (
+                    del /Q "C:\\Tomcat\\webapps\\springbootprojectapi.war"
+                )
+                if exist "C:\\Tomcat\\webapps\\springbootprojectapi" (
+                    rmdir /S /Q "C:\\Tomcat\\webapps\\springbootprojectapi"
+                )
+                copy "ProjectSpringBoot\\target\\springbootprojectapi.war" "C:\\Tomcat\\webapps\\springbootprojectapi.war"
+                '''
+            }
+        }
     }
-}
-
- }
 
     post {
         success {

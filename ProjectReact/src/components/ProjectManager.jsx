@@ -15,6 +15,7 @@ const ProjectManager = () => {
   });
   
   const [message, setMessage] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   const baseUrl = `${config.url}/projectapi`;
 
@@ -59,17 +60,35 @@ const ProjectManager = () => {
     }
   };
 
- const deleteProject = async (id) => {
-  try {
-    const res = await axios.delete(`${baseUrl}/delete/${id}`);
-    setMessage(res.data);
-    setProjects((prev) => prev.filter((p) => p.id !== id));
-  // eslint-disable-next-line no-unused-vars
-  } catch (error) {
-    setMessage('Error deleting project.');
-  }
-};
+  const updateProject = async () => {
+    if (!validateForm()) return;
+    try {
+      await axios.put(`${baseUrl}/update`, project);
+      setMessage(`Project with ID ${project.id} updated successfully.`);
+      fetchAllProjects();
+      resetForm();
+      setIsEditing(false);
+    // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      setMessage('Error updating project.');
+    }
+  };
 
+  const deleteProject = async (id) => {
+    try {
+      const res = await axios.delete(`${baseUrl}/delete/${id}`);
+      setMessage(res.data);
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+    // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      setMessage('Error deleting project.');
+    }
+  };
+
+  const editProject = (proj) => {
+    setProject(proj);
+    setIsEditing(true);
+  };
 
   const resetForm = () => {
     setProject({
@@ -80,6 +99,7 @@ const ProjectManager = () => {
       status: '',
       guide: ''
     });
+    setIsEditing(false);
   };
 
   return (
@@ -98,7 +118,7 @@ const ProjectManager = () => {
       <h2>Project Management</h2>
 
       <div>
-        <h3>Add Project</h3>
+        <h3>{isEditing ? "Update Project" : "Add Project"}</h3>
         <div className="form-grid">
           <input
             type="number"
@@ -106,6 +126,7 @@ const ProjectManager = () => {
             placeholder="ID"
             value={project.id}
             onChange={handleChange}
+            disabled={isEditing} // Prevent ID change while editing
           />
           <input
             type="text"
@@ -113,7 +134,7 @@ const ProjectManager = () => {
             placeholder="Title (max 10 chars)"
             value={project.title}
             onChange={handleChange}
-            maxLength={10} // matches DB column length
+            maxLength={10}
           />
           <input
             type="text"
@@ -121,7 +142,7 @@ const ProjectManager = () => {
             placeholder="Description (max 50 chars)"
             value={project.description}
             onChange={handleChange}
-            maxLength={50} // matches DB column length
+            maxLength={50}
           />
           <input
             type="text"
@@ -129,7 +150,6 @@ const ProjectManager = () => {
             placeholder="Domain"
             value={project.domain}
             onChange={handleChange}
-            maxLength={255} // safe for DB
           />
           <select
             name="status"
@@ -147,14 +167,20 @@ const ProjectManager = () => {
             placeholder="Guide (max 10 chars)"
             value={project.guide}
             onChange={handleChange}
-            maxLength={10} // matches DB column length
+            maxLength={10}
           />
         </div>
 
         <div className="btn-group">
-          <button className="btn-blue" onClick={addProject}>
-            Add Project
-          </button>
+          {isEditing ? (
+            <button className="btn-blue" onClick={updateProject}>
+              Update Project
+            </button>
+          ) : (
+            <button className="btn-blue" onClick={addProject}>
+              Add Project
+            </button>
+          )}
           <button className="btn-gray" onClick={resetForm}>
             Reset
           </button>
@@ -183,14 +209,21 @@ const ProjectManager = () => {
                       <td key={key}>{proj[key]}</td>
                     ))}
                     <td>
-                      <div className="action-buttons">
-                        <button
-                          className="btn-red"
-                          onClick={() => deleteProject(proj.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
+                    <div className="action-buttons">
+  <button
+    className="btn-blue"
+    onClick={() => editProject(proj)}
+  >
+    Edit
+  </button>
+  <button
+    className="btn-blue"
+    onClick={() => deleteProject(proj.id)}
+  >
+    Delete
+  </button>
+</div>
+
                     </td>
                   </tr>
                 ))}
